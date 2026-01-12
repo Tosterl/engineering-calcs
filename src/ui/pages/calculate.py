@@ -25,6 +25,7 @@ from src.data.database import get_session
 from src.data.models import Calculation as CalculationModel
 from src.data.models import Formula
 from src.services.report_service import ReportService
+from src.services.formula_diagrams import FormulaDiagramService
 from src.config import get_settings
 
 
@@ -37,6 +38,9 @@ CATEGORY_ICONS = {
     "Mechanical": "settings",
     "Controls": "tune",
     "Vibrations": "vibration",
+    "Fatigue": "autorenew",
+    "Cross Sections": "view_in_ar",
+    "Trusses": "account_tree",
 }
 
 
@@ -92,16 +96,66 @@ def create_input_form(
 
     state.input_fields = {}
 
+    # Try to get diagram for this calculation
+    diagram = FormulaDiagramService.get_diagram(calculation_class.__name__)
+
     with ui.card().classes("w-full") as form_card:
         # Calculation header
         ui.label(calculation_class.name).classes("text-xl font-bold text-primary")
         ui.label(calculation_class.description).classes("text-gray-600 mb-4")
 
-        # Formula display (if available)
+        # Formula Diagram Section (if available)
+        if diagram:
+            with ui.expansion("Formula Diagram & Examples", icon="schema", value=True).classes("w-full mb-4"):
+                # SVG Diagram
+                with ui.card().classes("w-full bg-gray-50 mb-4"):
+                    ui.html(diagram.svg_diagram).classes("w-full max-w-lg mx-auto")
+
+                # Variable descriptions
+                with ui.card().classes("w-full mb-4"):
+                    ui.label("Variables").classes("font-semibold text-primary mb-2")
+                    with ui.column().classes("gap-1"):
+                        for var, desc in diagram.variables.items():
+                            with ui.row().classes("gap-2"):
+                                ui.label(var).classes("font-mono font-bold text-blue-600 w-12")
+                                ui.label(f"= {desc}").classes("text-gray-600")
+
+                # Worked Examples
+                if diagram.examples:
+                    ui.label("Worked Examples").classes("font-semibold text-primary mt-4 mb-2")
+                    for i, example in enumerate(diagram.examples, 1):
+                        with ui.card().classes("w-full mb-2 bg-blue-50"):
+                            ui.label(f"Example {i}: {example.description}").classes(
+                                "font-medium text-blue-800"
+                            )
+
+                            with ui.row().classes("gap-8 mt-2"):
+                                # Inputs
+                                with ui.column().classes("gap-1"):
+                                    ui.label("Inputs:").classes("text-sm font-semibold text-gray-600")
+                                    for name, value in example.inputs.items():
+                                        ui.label(f"  {name} = {value}").classes(
+                                            "text-sm font-mono text-gray-700"
+                                        )
+
+                                # Outputs
+                                with ui.column().classes("gap-1"):
+                                    ui.label("Results:").classes("text-sm font-semibold text-gray-600")
+                                    for name, value in example.expected_outputs.items():
+                                        ui.label(f"  {name} = {value}").classes(
+                                            "text-sm font-mono text-green-700 font-bold"
+                                        )
+
+                            if example.notes:
+                                ui.label(f"Note: {example.notes}").classes(
+                                    "text-xs text-gray-500 italic mt-1"
+                                )
+
+        # References (if available)
         if hasattr(calculation_class, 'references') and calculation_class.references:
             with ui.expansion("References", icon="book").classes("w-full mb-4"):
                 for ref in calculation_class.references:
-                    ui.label(f"- {ref}").classes("text-sm text-gray-600")
+                    ui.label(f"• {ref}").classes("text-sm text-gray-600")
 
         ui.separator()
         ui.label("Input Parameters").classes("text-lg font-semibold mt-4 mb-2")

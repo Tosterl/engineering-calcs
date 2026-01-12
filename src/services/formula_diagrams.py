@@ -450,18 +450,269 @@ class FormulaDiagramService:
             ]
         )
 
+    @staticmethod
+    def get_shear_stress_diagram() -> FormulaDiagram:
+        """Shear stress diagram."""
+        svg = '''
+        <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+            <!-- Block -->
+            <rect x="100" y="50" width="150" height="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+
+            <!-- Shear force arrows -->
+            <line x1="100" y1="30" x2="250" y2="30" stroke="#d32f2f" stroke-width="2"/>
+            <polygon points="250,30 240,25 240,35" fill="#d32f2f"/>
+            <text x="170" y="22" font-size="12" fill="#d32f2f" font-weight="bold">V</text>
+
+            <line x1="250" y1="150" x2="100" y2="150" stroke="#d32f2f" stroke-width="2"/>
+            <polygon points="100,150 110,145 110,155" fill="#d32f2f"/>
+            <text x="170" y="168" font-size="12" fill="#d32f2f" font-weight="bold">V</text>
+
+            <!-- Shear plane -->
+            <line x1="100" y1="90" x2="250" y2="90" stroke="#4caf50" stroke-width="2" stroke-dasharray="5,3"/>
+            <text x="260" y="95" font-size="11" fill="#4caf50">Shear plane (A)</text>
+
+            <!-- Formula -->
+            <text x="300" y="60" font-size="14" fill="#333" font-weight="bold">τ = V/A</text>
+            <text x="300" y="80" font-size="11" fill="#666">Shear Stress</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Shear stress occurs when forces act parallel to a surface.",
+            variables={"τ": "Shear stress (Pa)", "V": "Shear force (N)", "A": "Shear area (m²)"},
+            examples=[
+                FormulaExample(
+                    description="Bolt in single shear",
+                    inputs={"shear_force": "20000 N", "area": "0.000314 m²"},
+                    expected_outputs={"shear_stress": "63.7 MPa"},
+                    notes="20mm diameter bolt"
+                )
+            ]
+        )
+
+    @staticmethod
+    def get_spring_diagram() -> FormulaDiagram:
+        """Spring force-deflection diagram."""
+        svg = '''
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Fixed support -->
+            <rect x="50" y="40" width="20" height="120" fill="#666"/>
+            <line x1="50" y1="40" x2="30" y2="60" stroke="#666" stroke-width="2"/>
+            <line x1="50" y1="60" x2="30" y2="80" stroke="#666" stroke-width="2"/>
+            <line x1="50" y1="80" x2="30" y2="100" stroke="#666" stroke-width="2"/>
+            <line x1="50" y1="100" x2="30" y2="120" stroke="#666" stroke-width="2"/>
+            <line x1="50" y1="120" x2="30" y2="140" stroke="#666" stroke-width="2"/>
+            <line x1="50" y1="140" x2="30" y2="160" stroke="#666" stroke-width="2"/>
+
+            <!-- Spring coils -->
+            <path d="M 70 100 L 90 80 L 110 120 L 130 80 L 150 120 L 170 80 L 190 120 L 210 80 L 230 120 L 250 100"
+                  fill="none" stroke="#1976d2" stroke-width="3"/>
+
+            <!-- Mass/block -->
+            <rect x="250" y="80" width="40" height="40" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+
+            <!-- Force arrow -->
+            <line x1="330" y1="100" x2="295" y2="100" stroke="#d32f2f" stroke-width="3"/>
+            <polygon points="295,100 305,95 305,105" fill="#d32f2f"/>
+            <text x="335" y="105" font-size="14" fill="#d32f2f" font-weight="bold">F</text>
+
+            <!-- Deflection indicator -->
+            <line x1="270" y1="140" x2="270" y2="170" stroke="#4caf50" stroke-width="1"/>
+            <line x1="270" y1="170" x2="320" y2="170" stroke="#4caf50" stroke-width="1"/>
+            <line x1="320" y1="165" x2="320" y2="175" stroke="#4caf50" stroke-width="1"/>
+            <text x="285" y="185" font-size="11" fill="#4caf50">δ</text>
+
+            <!-- Formula -->
+            <text x="100" y="180" font-size="14" fill="#333" font-weight="bold">F = kδ  →  k = F/δ</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Hooke's Law: Spring force is proportional to displacement.",
+            variables={"F": "Applied force (N)", "k": "Spring rate/stiffness (N/m)", "δ": "Deflection (m)"},
+            examples=[
+                FormulaExample(
+                    description="Automotive suspension spring",
+                    inputs={"force": "5000 N", "spring_rate": "50000 N/m"},
+                    expected_outputs={"deflection": "0.1 m (100mm)"},
+                    notes="Typical car spring"
+                )
+            ]
+        )
+
+    @staticmethod
+    def get_heat_conduction_diagram() -> FormulaDiagram:
+        """Heat conduction through a wall."""
+        svg = '''
+        <svg viewBox="0 0 450 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Wall -->
+            <rect x="150" y="30" width="80" height="140" fill="#ffcc80" stroke="#ef6c00" stroke-width="2"/>
+
+            <!-- Hot side -->
+            <text x="60" y="100" font-size="14" fill="#d32f2f" font-weight="bold">T₁ (hot)</text>
+            <g fill="#d32f2f">
+                <line x1="120" y1="60" x2="150" y2="60" stroke="#d32f2f" stroke-width="2"/>
+                <line x1="120" y1="100" x2="150" y2="100" stroke="#d32f2f" stroke-width="2"/>
+                <line x1="120" y1="140" x2="150" y2="140" stroke="#d32f2f" stroke-width="2"/>
+            </g>
+
+            <!-- Cold side -->
+            <text x="260" y="100" font-size="14" fill="#1976d2" font-weight="bold">T₂ (cold)</text>
+            <g fill="#1976d2">
+                <line x1="230" y1="60" x2="260" y2="60" stroke="#1976d2" stroke-width="2"/>
+                <line x1="230" y1="100" x2="260" y2="100" stroke="#1976d2" stroke-width="2"/>
+                <line x1="230" y1="140" x2="260" y2="140" stroke="#1976d2" stroke-width="2"/>
+            </g>
+
+            <!-- Heat flow arrow -->
+            <line x1="170" y1="100" x2="210" y2="100" stroke="#ff5722" stroke-width="3"/>
+            <polygon points="210,100 200,95 200,105" fill="#ff5722"/>
+            <text x="180" y="90" font-size="12" fill="#ff5722" font-weight="bold">Q</text>
+
+            <!-- Thickness -->
+            <line x1="150" y1="185" x2="230" y2="185" stroke="#666" stroke-width="1"/>
+            <line x1="150" y1="180" x2="150" y2="190" stroke="#666" stroke-width="1"/>
+            <line x1="230" y1="180" x2="230" y2="190" stroke="#666" stroke-width="1"/>
+            <text x="185" y="198" font-size="11" fill="#666">L</text>
+
+            <!-- Area indicator -->
+            <text x="175" y="25" font-size="11" fill="#666">Area = A</text>
+
+            <!-- Formula -->
+            <text x="300" y="70" font-size="13" fill="#333" font-weight="bold">Q = kA(T₁-T₂)/L</text>
+            <text x="300" y="90" font-size="11" fill="#666">Fourier's Law</text>
+            <text x="300" y="115" font-size="10" fill="#666">k = conductivity</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Heat conduction through a solid material (Fourier's Law).",
+            variables={
+                "Q": "Heat transfer rate (W)",
+                "k": "Thermal conductivity (W/m·K)",
+                "A": "Cross-sectional area (m²)",
+                "T₁-T₂": "Temperature difference (K)",
+                "L": "Thickness (m)"
+            },
+            examples=[
+                FormulaExample(
+                    description="Heat loss through wall",
+                    inputs={"conductivity": "0.5 W/m·K", "area": "10 m²", "temp_diff": "20 K", "thickness": "0.2 m"},
+                    expected_outputs={"heat_transfer": "500 W"},
+                    notes="Brick wall"
+                )
+            ]
+        )
+
+    @staticmethod
+    def get_rectangular_section_diagram() -> FormulaDiagram:
+        """Rectangular cross section."""
+        svg = '''
+        <svg viewBox="0 0 350 220" xmlns="http://www.w3.org/2000/svg">
+            <!-- Rectangle -->
+            <rect x="80" y="40" width="120" height="140" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+
+            <!-- Width dimension -->
+            <line x1="80" y1="195" x2="200" y2="195" stroke="#666" stroke-width="1"/>
+            <line x1="80" y1="190" x2="80" y2="200" stroke="#666" stroke-width="1"/>
+            <line x1="200" y1="190" x2="200" y2="200" stroke="#666" stroke-width="1"/>
+            <text x="135" y="212" font-size="12" fill="#666">b</text>
+
+            <!-- Height dimension -->
+            <line x1="215" y1="40" x2="215" y2="180" stroke="#666" stroke-width="1"/>
+            <line x1="210" y1="40" x2="220" y2="40" stroke="#666" stroke-width="1"/>
+            <line x1="210" y1="180" x2="220" y2="180" stroke="#666" stroke-width="1"/>
+            <text x="225" y="115" font-size="12" fill="#666">h</text>
+
+            <!-- Centroid -->
+            <circle cx="140" cy="110" r="4" fill="#4caf50"/>
+            <text x="145" y="108" font-size="10" fill="#4caf50">C</text>
+
+            <!-- Axes -->
+            <line x1="50" y1="110" x2="230" y2="110" stroke="#4caf50" stroke-width="1" stroke-dasharray="5,3"/>
+            <line x1="140" y1="20" x2="140" y2="200" stroke="#9c27b0" stroke-width="1" stroke-dasharray="5,3"/>
+            <text x="232" y="108" font-size="10" fill="#4caf50">x</text>
+            <text x="143" y="18" font-size="10" fill="#9c27b0">y</text>
+
+            <!-- Formulas -->
+            <text x="250" y="50" font-size="11" fill="#333" font-weight="bold">Properties:</text>
+            <text x="250" y="70" font-size="10" fill="#666">A = b × h</text>
+            <text x="250" y="90" font-size="10" fill="#666">Ix = bh³/12</text>
+            <text x="250" y="110" font-size="10" fill="#666">Iy = hb³/12</text>
+            <text x="250" y="130" font-size="10" fill="#666">Sx = bh²/6</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Rectangular cross-section properties.",
+            variables={
+                "b": "Width (m)",
+                "h": "Height (m)",
+                "A": "Area (m²)",
+                "Ix": "Moment of inertia about x-axis (m⁴)",
+                "Sx": "Section modulus (m³)"
+            },
+            examples=[
+                FormulaExample(
+                    description="Timber beam",
+                    inputs={"width": "0.1 m", "height": "0.2 m"},
+                    expected_outputs={"area": "0.02 m²", "Ix": "6.67e-5 m⁴"},
+                    notes="100mm x 200mm timber"
+                )
+            ]
+        )
+
     @classmethod
     def get_diagram(cls, calculation_name: str) -> Optional[FormulaDiagram]:
         """Get diagram for a specific calculation by name."""
         diagrams = {
+            # Materials
             "AxialStress": cls.get_axial_stress_diagram,
+            "ShearStress": cls.get_shear_stress_diagram,
+            "Strain": cls.get_axial_stress_diagram,  # Similar concept
+            "HookesLaw": cls.get_axial_stress_diagram,
+            "VonMisesStress": cls.get_axial_stress_diagram,
+            "FactorOfSafety": cls.get_axial_stress_diagram,
+
+            # Statics
             "BendingMoment": cls.get_bending_moment_diagram,
+            "SimplySupportedBeamReactions": cls.get_bending_moment_diagram,
+            "ShearForce": cls.get_bending_moment_diagram,
+
+            # Fluids
             "ReynoldsNumber": cls.get_pipe_flow_diagram,
+            "FlowRate": cls.get_pipe_flow_diagram,
+            "BernoulliEquation": cls.get_pipe_flow_diagram,
+            "DarcyWeisbachHeadLoss": cls.get_pipe_flow_diagram,
+
+            # Trusses
             "SimpleTrussReactions": cls.get_truss_diagram,
             "TrussMemberForce": cls.get_truss_diagram,
+            "TrussNodeEquilibrium": cls.get_truss_diagram,
+            "MethodOfSections": cls.get_truss_diagram,
+            "CriticalBucklingLoad": cls.get_truss_diagram,
+
+            # Fatigue
             "SNCurveLife": cls.get_fatigue_sn_diagram,
+            "StressAmplitude": cls.get_fatigue_sn_diagram,
+            "GoodmanDiagram": cls.get_fatigue_sn_diagram,
+            "MinersRule": cls.get_fatigue_sn_diagram,
+
+            # Cross sections
             "IBeamSection": cls.get_cross_section_i_beam_diagram,
-            # Add more mappings as needed
+            "RectangularSection": cls.get_rectangular_section_diagram,
+            "CircularSection": cls.get_rectangular_section_diagram,
+            "HollowCircularSection": cls.get_rectangular_section_diagram,
+            "TBeamSection": cls.get_cross_section_i_beam_diagram,
+            "CChannelSection": cls.get_cross_section_i_beam_diagram,
+
+            # Mechanical
+            "SpringRate": cls.get_spring_diagram,
+            "SpringDeflection": cls.get_spring_diagram,
+
+            # Thermo
+            "ConductionHeatTransfer": cls.get_heat_conduction_diagram,
+            "ThermalResistance": cls.get_heat_conduction_diagram,
         }
 
         factory = diagrams.get(calculation_name)
