@@ -16,6 +16,16 @@ from src.services.truss_visualization import (
     REACTION_COLOR,
     LOAD_COLOR,
 )
+from src.services.user_settings import (
+    UserSettings,
+    UserSettingsService,
+    get_user_settings,
+)
+from src.services.formula_diagrams import (
+    FormulaDiagram,
+    FormulaExample,
+    FormulaDiagramService,
+)
 
 __all__ = [
     "ChartService",
@@ -31,4 +41,10 @@ __all__ = [
     "ZERO_FORCE_COLOR",
     "REACTION_COLOR",
     "LOAD_COLOR",
+    "UserSettings",
+    "UserSettingsService",
+    "get_user_settings",
+    "FormulaDiagram",
+    "FormulaExample",
+    "FormulaDiagramService",
 ]

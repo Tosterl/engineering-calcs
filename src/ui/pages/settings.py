@@ -19,21 +19,23 @@ from sqlalchemy import select
 from src.data.database import get_session
 from src.data.models import Calculation, Formula, Project
 from src.config import get_settings
+from src.services.user_settings import get_user_settings
 
 
 class SettingsState:
     """State management for settings."""
 
     def __init__(self):
-        settings = get_settings()
+        # Load from persistent user settings
+        user_settings = get_user_settings()
 
-        self.unit_system: str = settings.default_unit_system
-        self.theme: str = settings.ui_theme
-        self.report_author: str = ""
-        self.report_company: str = ""
-        self.report_logo_path: str = ""
-        self.include_steps_default: bool = True
-        self.include_charts_default: bool = True
+        self.unit_system: str = user_settings.get("unit_system", "SI")
+        self.theme: str = user_settings.get("theme", "light")
+        self.report_author: str = user_settings.get("report_author", "")
+        self.report_company: str = user_settings.get("report_company", "")
+        self.report_logo_path: str = user_settings.get("report_logo_path", "")
+        self.include_steps_default: bool = user_settings.get("include_calc_steps", True)
+        self.include_charts_default: bool = user_settings.get("include_charts", True)
 
 
 def create_toggle_row(
@@ -218,8 +220,24 @@ def settings_page(
 
     def handle_save_settings() -> None:
         """Save settings to configuration."""
-        # In a real app, this would persist settings
-        ui.notify("Settings saved successfully!", type="positive")
+        user_settings = get_user_settings()
+
+        # Update all settings
+        user_settings.update(
+            unit_system=state.unit_system,
+            theme=state.theme,
+            report_author=state.report_author,
+            report_company=state.report_company,
+            report_logo_path=state.report_logo_path,
+            include_calc_steps=state.include_steps_default,
+            include_charts=state.include_charts_default,
+        )
+
+        # Persist to file
+        if user_settings.save():
+            ui.notify("Settings saved successfully!", type="positive")
+        else:
+            ui.notify("Failed to save settings", type="negative")
 
     async def handle_export() -> None:
         """Handle data export."""
