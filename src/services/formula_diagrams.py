@@ -36,7 +36,7 @@ class FormulaDiagramService:
     def get_axial_stress_diagram() -> FormulaDiagram:
         """Axial stress diagram: σ = F/A"""
         svg = '''
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 400 200" width="400" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Bar -->
             <rect x="50" y="70" width="200" height="60" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
 
@@ -94,7 +94,7 @@ class FormulaDiagramService:
     def get_bending_moment_diagram() -> FormulaDiagram:
         """Simply supported beam with uniform load."""
         svg = '''
-        <svg viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 450 220" width="450" height="220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Beam -->
             <rect x="50" y="80" width="300" height="20" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
 
@@ -173,7 +173,7 @@ class FormulaDiagramService:
     def get_pipe_flow_diagram() -> FormulaDiagram:
         """Pipe flow with Reynolds number."""
         svg = '''
-        <svg viewBox="0 0 450 180" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 450 180" width="450" height="180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Pipe outline -->
             <rect x="30" y="50" width="300" height="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="5"/>
             <rect x="40" y="60" width="280" height="60" fill="#bbdefb" stroke="none"/>
@@ -236,7 +236,7 @@ class FormulaDiagramService:
     def get_truss_diagram() -> FormulaDiagram:
         """Simple truss structure."""
         svg = '''
-        <svg viewBox="0 0 450 200" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 450 200" width="450" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Truss members -->
             <g stroke="#1976d2" stroke-width="3" fill="none">
                 <!-- Bottom chord -->
@@ -312,7 +312,7 @@ class FormulaDiagramService:
     def get_fatigue_sn_diagram() -> FormulaDiagram:
         """S-N curve for fatigue analysis."""
         svg = '''
-        <svg viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 450 220" width="450" height="220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Axes -->
             <line x1="60" y1="180" x2="400" y2="180" stroke="#333" stroke-width="2"/>
             <line x1="60" y1="180" x2="60" y2="30" stroke="#333" stroke-width="2"/>
@@ -378,7 +378,7 @@ class FormulaDiagramService:
     def get_cross_section_i_beam_diagram() -> FormulaDiagram:
         """I-beam cross section."""
         svg = '''
-        <svg viewBox="0 0 350 250" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 350 250" width="350" height="250" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- I-beam cross section -->
             <g transform="translate(50, 20)">
                 <!-- Top flange -->
@@ -454,7 +454,7 @@ class FormulaDiagramService:
     def get_shear_stress_diagram() -> FormulaDiagram:
         """Shear stress diagram."""
         svg = '''
-        <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 400 180" width="400" height="180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Block -->
             <rect x="100" y="50" width="150" height="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
 
@@ -494,7 +494,7 @@ class FormulaDiagramService:
     def get_spring_diagram() -> FormulaDiagram:
         """Spring force-deflection diagram."""
         svg = '''
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 400 200" width="400" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Fixed support -->
             <rect x="50" y="40" width="20" height="120" fill="#666"/>
             <line x1="50" y1="40" x2="30" y2="60" stroke="#666" stroke-width="2"/>
@@ -544,7 +544,7 @@ class FormulaDiagramService:
     def get_heat_conduction_diagram() -> FormulaDiagram:
         """Heat conduction through a wall."""
         svg = '''
-        <svg viewBox="0 0 450 200" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 450 200" width="450" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Wall -->
             <rect x="150" y="30" width="80" height="140" fill="#ffcc80" stroke="#ef6c00" stroke-width="2"/>
 
@@ -608,7 +608,7 @@ class FormulaDiagramService:
     def get_rectangular_section_diagram() -> FormulaDiagram:
         """Rectangular cross section."""
         svg = '''
-        <svg viewBox="0 0 350 220" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 350 220" width="350" height="220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
             <!-- Rectangle -->
             <rect x="80" y="40" width="120" height="140" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
 

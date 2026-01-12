@@ -107,9 +107,14 @@ def create_input_form(
         # Formula Diagram Section (if available)
         if diagram:
             with ui.expansion("Formula Diagram & Examples", icon="schema", value=True).classes("w-full mb-4"):
-                # SVG Diagram
-                with ui.card().classes("w-full bg-gray-50 mb-4"):
-                    ui.html(diagram.svg_diagram).classes("w-full max-w-lg mx-auto")
+                # Description
+                ui.label(diagram.description).classes("text-gray-600 mb-4")
+
+                # SVG Diagram with proper container
+                with ui.card().classes("w-full bg-gray-50 mb-4 p-4"):
+                    ui.label("Diagram").classes("font-semibold text-primary mb-2")
+                    # Wrap SVG in a div with explicit sizing
+                    ui.html(f'<div style="width: 100%; max-width: 450px; margin: 0 auto;">{diagram.svg_diagram}</div>')
 
                 # Variable descriptions
                 with ui.card().classes("w-full mb-4"):
