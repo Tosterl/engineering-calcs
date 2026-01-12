@@ -155,3 +155,8 @@ Thumbs.db
 # Project specific
 *.db
 *.sqlite
+
+# Claude temp files
+tmpclaude-*
+nul
+.claude/
