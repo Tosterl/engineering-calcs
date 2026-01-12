@@ -340,6 +340,37 @@ def register(calc_class: Type[Calculation]) -> Type[Calculation]:
 register_calculation = register
 
 
+def get_default_registry() -> CalculationRegistry:
+    """
+    Get the global default calculation registry.
+
+    Returns:
+        The singleton CalculationRegistry instance.
+    """
+    return calculation_registry
+
+
+def create_calculation(category: str, name: str, **inputs: Any) -> CalculationResult:
+    """
+    Factory function to create and execute a calculation.
+
+    Args:
+        category: The calculation category.
+        name: The calculation name.
+        **inputs: Input values for the calculation.
+
+    Returns:
+        CalculationResult from executing the calculation.
+
+    Raises:
+        ValueError: If the calculation is not found.
+    """
+    calc = calculation_registry.create(category, name)
+    if calc is None:
+        raise ValueError(f"Calculation not found: {category}.{name}")
+    return calc.calculate(**inputs)
+
+
 # Module exports
 __all__ = [
     "Parameter",
@@ -351,4 +382,6 @@ __all__ = [
     "calculation_registry",
     "register",
     "register_calculation",
+    "get_default_registry",
+    "create_calculation",
 ]
