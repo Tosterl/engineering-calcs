@@ -662,57 +662,345 @@ class FormulaDiagramService:
             ]
         )
 
+    @staticmethod
+    def get_step_response_diagram() -> FormulaDiagram:
+        """Control system step response."""
+        svg = '''
+        <svg viewBox="0 0 400 200" width="400" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <line x1="40" y1="170" x2="380" y2="170" stroke="#333" stroke-width="2"/>
+            <line x1="40" y1="170" x2="40" y2="20" stroke="#333" stroke-width="2"/>
+            <text x="200" y="195" font-size="11" fill="#333">Time (t)</text>
+            <text x="15" y="100" font-size="11" fill="#333">y(t)</text>
+            <line x1="40" y1="50" x2="380" y2="50" stroke="#4caf50" stroke-width="1" stroke-dasharray="5,3"/>
+            <text x="385" y="55" font-size="10" fill="#4caf50">Final value</text>
+            <path d="M 40 170 L 60 170 Q 100 30 160 60 Q 200 80 240 48 Q 280 40 320 50 L 380 50" fill="none" stroke="#1976d2" stroke-width="2"/>
+            <circle cx="200" cy="40" r="3" fill="#d32f2f"/>
+            <text x="205" y="35" font-size="9" fill="#d32f2f">Overshoot</text>
+            <line x1="160" y1="50" x2="160" y2="170" stroke="#ff9800" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="145" y="185" font-size="9" fill="#ff9800">Rise time</text>
+            <text x="300" y="130" font-size="11" fill="#333" font-weight="bold">G(s) = ωn²/(s²+2ζωns+ωn²)</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Second-order system step response showing overshoot and settling time.",
+            variables={"ζ": "Damping ratio", "ωn": "Natural frequency (rad/s)", "tr": "Rise time (s)", "ts": "Settling time (s)", "Mp": "Peak overshoot (%)"},
+            examples=[FormulaExample(description="Motor position control", inputs={"damping_ratio": "0.5", "natural_freq": "10 rad/s"}, expected_outputs={"overshoot": "16.3%", "settling_time": "0.8 s"}, notes="Underdamped response")]
+        )
+
+    @staticmethod
+    def get_pid_diagram() -> FormulaDiagram:
+        """PID controller block diagram."""
+        svg = '''
+        <svg viewBox="0 0 450 180" width="450" height="180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <circle cx="60" cy="90" r="15" fill="none" stroke="#333" stroke-width="2"/>
+            <text x="55" y="95" font-size="14" fill="#333">Σ</text>
+            <line x1="20" y1="90" x2="45" y2="90" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="25" y="80" font-size="10" fill="#333">r(t)</text>
+            <rect x="100" y="70" width="80" height="40" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+            <text x="115" y="95" font-size="12" fill="#1976d2" font-weight="bold">PID</text>
+            <line x1="75" y1="90" x2="100" y2="90" stroke="#333" stroke-width="2"/>
+            <text x="80" y="80" font-size="10" fill="#333">e(t)</text>
+            <rect x="220" y="70" width="80" height="40" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+            <text x="235" y="95" font-size="12" fill="#ff9800" font-weight="bold">Plant</text>
+            <line x1="180" y1="90" x2="220" y2="90" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="185" y="80" font-size="10" fill="#333">u(t)</text>
+            <line x1="300" y1="90" x2="400" y2="90" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="380" y="80" font-size="10" fill="#333">y(t)</text>
+            <line x1="350" y1="90" x2="350" y2="150" stroke="#333" stroke-width="2"/>
+            <line x1="350" y1="150" x2="60" y2="150" stroke="#333" stroke-width="2"/>
+            <line x1="60" y1="150" x2="60" y2="105" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="55" y="118" font-size="10" fill="#333">-</text>
+            <text x="120" y="160" font-size="10" fill="#666">u = Kp·e + Ki∫e·dt + Kd·de/dt</text>
+            <defs><marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#333"/></marker></defs>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="PID controller with proportional, integral, and derivative actions.",
+            variables={"Kp": "Proportional gain", "Ki": "Integral gain", "Kd": "Derivative gain", "e(t)": "Error signal", "u(t)": "Control output"},
+            examples=[FormulaExample(description="Temperature control", inputs={"Kp": "2.0", "Ki": "0.5", "Kd": "0.1"}, expected_outputs={"response": "Fast settling, minimal overshoot"}, notes="Ziegler-Nichols tuned")]
+        )
+
+    @staticmethod
+    def get_vibration_diagram() -> FormulaDiagram:
+        """Mass-spring-damper system."""
+        svg = '''
+        <svg viewBox="0 0 400 200" width="400" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <rect x="30" y="20" width="20" height="160" fill="#666"/>
+            <path d="M 50 60 L 70 50 L 90 70 L 110 50 L 130 70 L 150 50 L 170 70 L 190 60" fill="none" stroke="#1976d2" stroke-width="3"/>
+            <text x="110" y="40" font-size="11" fill="#1976d2">k</text>
+            <rect x="60" y="120" width="120" height="30" fill="#ffcc80" stroke="#ef6c00" stroke-width="2"/>
+            <line x1="120" y1="150" x2="120" y2="180" stroke="#ef6c00" stroke-width="2"/>
+            <text x="125" y="170" font-size="11" fill="#ef6c00">c</text>
+            <rect x="190" y="40" width="60" height="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+            <text x="210" y="85" font-size="14" fill="#1976d2" font-weight="bold">m</text>
+            <line x1="280" y1="80" x2="320" y2="80" stroke="#d32f2f" stroke-width="3"/>
+            <polygon points="320,80 310,75 310,85" fill="#d32f2f"/>
+            <text x="325" y="85" font-size="12" fill="#d32f2f">F(t)</text>
+            <line x1="220" y1="130" x2="220" y2="170" stroke="#4caf50" stroke-width="1"/>
+            <line x1="220" y1="170" x2="260" y2="170" stroke="#4caf50" stroke-width="1"/>
+            <text x="235" y="185" font-size="10" fill="#4caf50">x(t)</text>
+            <text x="270" y="150" font-size="10" fill="#333">mẍ + cẋ + kx = F(t)</text>
+            <text x="270" y="170" font-size="10" fill="#666">ωn = √(k/m)</text>
+            <text x="270" y="185" font-size="10" fill="#666">ζ = c/(2√km)</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Single degree of freedom mass-spring-damper vibration system.",
+            variables={"m": "Mass (kg)", "k": "Spring stiffness (N/m)", "c": "Damping coefficient (N·s/m)", "ωn": "Natural frequency (rad/s)", "ζ": "Damping ratio"},
+            examples=[FormulaExample(description="Vehicle suspension", inputs={"mass": "400 kg", "stiffness": "40000 N/m", "damping": "4000 N·s/m"}, expected_outputs={"natural_freq": "10 rad/s", "damping_ratio": "0.5"}, notes="Quarter-car model")]
+        )
+
+    @staticmethod
+    def get_torsion_diagram() -> FormulaDiagram:
+        """Torsion in a shaft."""
+        svg = '''
+        <svg viewBox="0 0 400 180" width="400" height="180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <ellipse cx="80" cy="90" rx="15" ry="40" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+            <rect x="80" y="50" width="200" height="80" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+            <ellipse cx="280" cy="90" rx="15" ry="40" fill="#bbdefb" stroke="#1976d2" stroke-width="2"/>
+            <path d="M 60 60 A 30 30 0 0 1 60 120" fill="none" stroke="#d32f2f" stroke-width="3"/>
+            <polygon points="60,120 55,108 68,115" fill="#d32f2f"/>
+            <text x="35" y="95" font-size="14" fill="#d32f2f" font-weight="bold">T</text>
+            <path d="M 300 120 A 30 30 0 0 1 300 60" fill="none" stroke="#d32f2f" stroke-width="3"/>
+            <polygon points="300,60 305,72 292,65" fill="#d32f2f"/>
+            <text x="310" y="95" font-size="14" fill="#d32f2f" font-weight="bold">T</text>
+            <line x1="80" y1="150" x2="280" y2="150" stroke="#666" stroke-width="1"/>
+            <text x="175" y="165" font-size="11" fill="#666">L</text>
+            <text x="175" y="95" font-size="11" fill="#1976d2">r</text>
+            <text x="320" y="50" font-size="11" fill="#333" font-weight="bold">τ = Tr/J</text>
+            <text x="320" y="70" font-size="10" fill="#666">θ = TL/GJ</text>
+            <text x="320" y="90" font-size="10" fill="#666">J = πd⁴/32</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Torsional stress and angle of twist in a circular shaft.",
+            variables={"τ": "Shear stress (Pa)", "T": "Torque (N·m)", "r": "Radius (m)", "J": "Polar moment of inertia (m⁴)", "θ": "Angle of twist (rad)", "G": "Shear modulus (Pa)"},
+            examples=[FormulaExample(description="Drive shaft", inputs={"torque": "500 N·m", "diameter": "0.05 m", "length": "1 m"}, expected_outputs={"max_stress": "81.5 MPa", "twist_angle": "0.012 rad"}, notes="Steel shaft, G=80 GPa")]
+        )
+
+    @staticmethod
+    def get_bolt_diagram() -> FormulaDiagram:
+        """Bolted connection."""
+        svg = '''
+        <svg viewBox="0 0 380 200" width="380" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <rect x="100" y="40" width="150" height="30" fill="#ccc" stroke="#666" stroke-width="2"/>
+            <rect x="100" y="70" width="150" height="30" fill="#ddd" stroke="#666" stroke-width="2"/>
+            <rect x="165" y="20" width="20" height="100" fill="#1976d2" stroke="#0d47a1" stroke-width="2"/>
+            <polygon points="175,20 160,5 190,5" fill="#1976d2" stroke="#0d47a1" stroke-width="2"/>
+            <rect x="160" y="120" width="30" height="12" fill="#1976d2" stroke="#0d47a1" stroke-width="2"/>
+            <line x1="175" y1="140" x2="175" y2="180" stroke="#d32f2f" stroke-width="2"/>
+            <polygon points="175,180 170,165 180,165" fill="#d32f2f"/>
+            <text x="180" y="175" font-size="12" fill="#d32f2f">F</text>
+            <text x="200" y="55" font-size="10" fill="#666">Plate 1</text>
+            <text x="200" y="85" font-size="10" fill="#666">Plate 2</text>
+            <text x="260" y="50" font-size="11" fill="#333" font-weight="bold">σ = F/At</text>
+            <text x="260" y="70" font-size="10" fill="#666">At = tensile area</text>
+            <text x="260" y="90" font-size="11" fill="#333" font-weight="bold">τ = F/As</text>
+            <text x="260" y="110" font-size="10" fill="#666">As = shear area</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Bolted joint showing tensile and shear loading.",
+            variables={"σ": "Tensile stress (Pa)", "τ": "Shear stress (Pa)", "F": "Applied force (N)", "At": "Tensile stress area (m²)", "As": "Shear area (m²)"},
+            examples=[FormulaExample(description="M12 bolt in tension", inputs={"force": "30000 N", "tensile_area": "84.3 mm²"}, expected_outputs={"tensile_stress": "356 MPa"}, notes="Grade 8.8 bolt")]
+        )
+
+    @staticmethod
+    def get_cantilever_diagram() -> FormulaDiagram:
+        """Cantilever beam."""
+        svg = '''
+        <svg viewBox="0 0 400 180" width="400" height="180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <rect x="30" y="40" width="25" height="100" fill="#666"/>
+            <line x1="30" y1="40" x2="10" y2="60" stroke="#666" stroke-width="2"/>
+            <line x1="30" y1="60" x2="10" y2="80" stroke="#666" stroke-width="2"/>
+            <line x1="30" y1="80" x2="10" y2="100" stroke="#666" stroke-width="2"/>
+            <line x1="30" y1="100" x2="10" y2="120" stroke="#666" stroke-width="2"/>
+            <line x1="30" y1="120" x2="10" y2="140" stroke="#666" stroke-width="2"/>
+            <rect x="55" y="80" width="250" height="20" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+            <line x1="305" y1="105" x2="305" y2="155" stroke="#d32f2f" stroke-width="3"/>
+            <polygon points="305,155 300,140 310,140" fill="#d32f2f"/>
+            <text x="310" y="140" font-size="14" fill="#d32f2f" font-weight="bold">P</text>
+            <line x1="55" y1="115" x2="305" y2="115" stroke="#666" stroke-width="1"/>
+            <text x="175" y="130" font-size="11" fill="#666">L</text>
+            <path d="M 55 90 Q 180 92 305 110" fill="none" stroke="#4caf50" stroke-width="2" stroke-dasharray="5,3"/>
+            <text x="180" y="75" font-size="10" fill="#4caf50">Deflected shape</text>
+            <text x="320" y="60" font-size="10" fill="#333" font-weight="bold">δmax = PL³/3EI</text>
+            <text x="320" y="80" font-size="10" fill="#333" font-weight="bold">Mmax = PL</text>
+            <text x="320" y="100" font-size="10" fill="#666">at fixed end</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Cantilever beam with point load at free end.",
+            variables={"P": "Point load (N)", "L": "Length (m)", "E": "Elastic modulus (Pa)", "I": "Moment of inertia (m⁴)", "δ": "Deflection (m)", "M": "Bending moment (N·m)"},
+            examples=[FormulaExample(description="Diving board", inputs={"load": "800 N", "length": "3 m", "EI": "50000 N·m²"}, expected_outputs={"max_deflection": "0.144 m", "max_moment": "2400 N·m"}, notes="Person at end of board")]
+        )
+
+    @staticmethod
+    def get_convection_diagram() -> FormulaDiagram:
+        """Convection heat transfer."""
+        svg = '''
+        <svg viewBox="0 0 400 180" width="400" height="180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <rect x="50" y="40" width="30" height="100" fill="#ff8a65" stroke="#e64a19" stroke-width="2"/>
+            <text x="55" y="95" font-size="12" fill="#fff" font-weight="bold">Ts</text>
+            <g fill="#64b5f6">
+                <path d="M 100 50 Q 120 45 140 55 Q 160 65 180 55" fill="none" stroke="#1976d2" stroke-width="2"/>
+                <path d="M 100 80 Q 120 75 140 85 Q 160 95 180 85" fill="none" stroke="#1976d2" stroke-width="2"/>
+                <path d="M 100 110 Q 120 105 140 115 Q 160 125 180 115" fill="none" stroke="#1976d2" stroke-width="2"/>
+            </g>
+            <text x="130" y="145" font-size="11" fill="#1976d2">Fluid flow, T∞</text>
+            <line x1="65" y1="90" x2="95" y2="90" stroke="#d32f2f" stroke-width="3"/>
+            <polygon points="95,90 85,85 85,95" fill="#d32f2f"/>
+            <text x="70" y="80" font-size="12" fill="#d32f2f" font-weight="bold">Q</text>
+            <text x="220" y="50" font-size="12" fill="#333" font-weight="bold">Q = hA(Ts - T∞)</text>
+            <text x="220" y="75" font-size="10" fill="#666">h = convection coefficient</text>
+            <text x="220" y="95" font-size="10" fill="#666">A = surface area</text>
+            <text x="220" y="115" font-size="10" fill="#666">Ts = surface temp</text>
+            <text x="220" y="135" font-size="10" fill="#666">T∞ = fluid temp</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Convective heat transfer from a surface to a moving fluid.",
+            variables={"Q": "Heat transfer rate (W)", "h": "Convection coefficient (W/m²·K)", "A": "Surface area (m²)", "Ts": "Surface temperature (K)", "T∞": "Fluid temperature (K)"},
+            examples=[FormulaExample(description="Heated plate in air", inputs={"h": "25 W/m²·K", "area": "0.5 m²", "Ts": "80°C", "T∞": "20°C"}, expected_outputs={"heat_transfer": "750 W"}, notes="Natural convection")]
+        )
+
+    @staticmethod
+    def get_circular_section_diagram() -> FormulaDiagram:
+        """Circular cross section."""
+        svg = '''
+        <svg viewBox="0 0 350 200" width="350" height="200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+            <circle cx="120" cy="100" r="60" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+            <circle cx="120" cy="100" r="3" fill="#4caf50"/>
+            <text x="125" y="98" font-size="10" fill="#4caf50">C</text>
+            <line x1="120" y1="100" x2="180" y2="100" stroke="#d32f2f" stroke-width="2"/>
+            <text x="145" y="95" font-size="12" fill="#d32f2f">r</text>
+            <line x1="120" y1="40" x2="120" y2="160" stroke="#666" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="60" y1="100" x2="180" y2="100" stroke="#666" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="185" y1="40" x2="185" y2="160" stroke="#666" stroke-width="1"/>
+            <text x="190" y="105" font-size="11" fill="#666">d</text>
+            <text x="220" y="50" font-size="11" fill="#333" font-weight="bold">Properties:</text>
+            <text x="220" y="70" font-size="10" fill="#666">A = πr² = πd²/4</text>
+            <text x="220" y="90" font-size="10" fill="#666">I = πr⁴/4 = πd⁴/64</text>
+            <text x="220" y="110" font-size="10" fill="#666">J = πr⁴/2 = πd⁴/32</text>
+            <text x="220" y="130" font-size="10" fill="#666">S = πr³/4 = πd³/32</text>
+        </svg>
+        '''
+        return FormulaDiagram(
+            svg_diagram=svg,
+            description="Solid circular cross-section properties.",
+            variables={"r": "Radius (m)", "d": "Diameter (m)", "A": "Area (m²)", "I": "Moment of inertia (m⁴)", "J": "Polar moment of inertia (m⁴)", "S": "Section modulus (m³)"},
+            examples=[FormulaExample(description="Steel rod", inputs={"diameter": "0.05 m"}, expected_outputs={"area": "0.00196 m²", "I": "3.07e-7 m⁴"}, notes="50mm diameter solid rod")]
+        )
+
     @classmethod
     def get_diagram(cls, calculation_name: str) -> Optional[FormulaDiagram]:
         """Get diagram for a specific calculation by name."""
         diagrams = {
-            # Materials
+            # Materials (7)
             "AxialStress": cls.get_axial_stress_diagram,
             "ShearStress": cls.get_shear_stress_diagram,
-            "Strain": cls.get_axial_stress_diagram,  # Similar concept
+            "Strain": cls.get_axial_stress_diagram,
             "HookesLaw": cls.get_axial_stress_diagram,
+            "ThermalStress": cls.get_axial_stress_diagram,
             "VonMisesStress": cls.get_axial_stress_diagram,
             "FactorOfSafety": cls.get_axial_stress_diagram,
 
-            # Statics
-            "BendingMoment": cls.get_bending_moment_diagram,
+            # Statics (8)
+            "MomentAboutPoint": cls.get_bending_moment_diagram,
             "SimplySupportedBeamReactions": cls.get_bending_moment_diagram,
+            "CantileverBeamReaction": cls.get_cantilever_diagram,
+            "BendingMoment": cls.get_bending_moment_diagram,
             "ShearForce": cls.get_bending_moment_diagram,
+            "SectionModulus": cls.get_rectangular_section_diagram,
+            "MomentOfInertiaRectangle": cls.get_rectangular_section_diagram,
+            "CentroidComposite": cls.get_rectangular_section_diagram,
 
-            # Fluids
-            "ReynoldsNumber": cls.get_pipe_flow_diagram,
+            # Fluids (8)
             "FlowRate": cls.get_pipe_flow_diagram,
+            "ReynoldsNumber": cls.get_pipe_flow_diagram,
             "BernoulliEquation": cls.get_pipe_flow_diagram,
             "DarcyWeisbachHeadLoss": cls.get_pipe_flow_diagram,
+            "FrictionFactor": cls.get_pipe_flow_diagram,
+            "PipePressureDrop": cls.get_pipe_flow_diagram,
+            "PumpPower": cls.get_pipe_flow_diagram,
+            "HydraulicDiameter": cls.get_pipe_flow_diagram,
 
-            # Trusses
-            "SimpleTrussReactions": cls.get_truss_diagram,
-            "TrussMemberForce": cls.get_truss_diagram,
+            # Trusses (8)
             "TrussNodeEquilibrium": cls.get_truss_diagram,
+            "TrussMemberForce": cls.get_truss_diagram,
+            "SimpleTrussReactions": cls.get_truss_diagram,
             "MethodOfSections": cls.get_truss_diagram,
+            "TrussMemberStress": cls.get_truss_diagram,
+            "TrussDeflection": cls.get_truss_diagram,
             "CriticalBucklingLoad": cls.get_truss_diagram,
+            "TrussEfficiency": cls.get_truss_diagram,
 
-            # Fatigue
-            "SNCurveLife": cls.get_fatigue_sn_diagram,
+            # Fatigue (8)
             "StressAmplitude": cls.get_fatigue_sn_diagram,
-            "GoodmanDiagram": cls.get_fatigue_sn_diagram,
+            "SNCurveLife": cls.get_fatigue_sn_diagram,
             "MinersRule": cls.get_fatigue_sn_diagram,
+            "GoodmanDiagram": cls.get_fatigue_sn_diagram,
+            "GerberCriterion": cls.get_fatigue_sn_diagram,
+            "SoderbergCriterion": cls.get_fatigue_sn_diagram,
+            "EnduranceLimitEstimate": cls.get_fatigue_sn_diagram,
+            "StressConcentrationFatigue": cls.get_fatigue_sn_diagram,
 
-            # Cross sections
-            "IBeamSection": cls.get_cross_section_i_beam_diagram,
+            # Cross Sections (8)
             "RectangularSection": cls.get_rectangular_section_diagram,
-            "CircularSection": cls.get_rectangular_section_diagram,
-            "HollowCircularSection": cls.get_rectangular_section_diagram,
-            "TBeamSection": cls.get_cross_section_i_beam_diagram,
+            "CircularSection": cls.get_circular_section_diagram,
+            "HollowCircularSection": cls.get_circular_section_diagram,
+            "IBeamSection": cls.get_cross_section_i_beam_diagram,
             "CChannelSection": cls.get_cross_section_i_beam_diagram,
+            "HollowRectangularSection": cls.get_rectangular_section_diagram,
+            "TBeamSection": cls.get_cross_section_i_beam_diagram,
+            "AngleSection": cls.get_rectangular_section_diagram,
 
-            # Mechanical
+            # Mechanical (8)
+            "BoltTensileStress": cls.get_bolt_diagram,
+            "BoltShearCapacity": cls.get_bolt_diagram,
+            "BoltPreload": cls.get_bolt_diagram,
+            "TorsionalStress": cls.get_torsion_diagram,
+            "ShaftTwistAngle": cls.get_torsion_diagram,
+            "BearingLife": cls.get_bolt_diagram,
             "SpringRate": cls.get_spring_diagram,
             "SpringDeflection": cls.get_spring_diagram,
 
-            # Thermo
+            # Thermo (8)
             "ConductionHeatTransfer": cls.get_heat_conduction_diagram,
+            "ConvectionHeatTransfer": cls.get_convection_diagram,
+            "RadiationHeatTransfer": cls.get_convection_diagram,
             "ThermalResistance": cls.get_heat_conduction_diagram,
+            "OverallHeatTransferCoefficient": cls.get_heat_conduction_diagram,
+            "CarnotEfficiency": cls.get_heat_conduction_diagram,
+            "RefrigerationCOP": cls.get_heat_conduction_diagram,
+            "LogMeanTempDifference": cls.get_heat_conduction_diagram,
+
+            # Controls (8)
+            "FirstOrderResponse": cls.get_step_response_diagram,
+            "SecondOrderResponse": cls.get_step_response_diagram,
+            "SettlingTime": cls.get_step_response_diagram,
+            "PercentOvershoot": cls.get_step_response_diagram,
+            "ZieglerNicholsTuning": cls.get_pid_diagram,
+            "PIDControllerOutput": cls.get_pid_diagram,
+            "GainMargin": cls.get_pid_diagram,
+            "PhaseMargin": cls.get_pid_diagram,
+
+            # Vibrations (8)
+            "NaturalFrequency": cls.get_vibration_diagram,
+            "DampingRatio": cls.get_vibration_diagram,
+            "DampedNaturalFrequency": cls.get_vibration_diagram,
+            "LogarithmicDecrement": cls.get_vibration_diagram,
+            "MagnificationFactor": cls.get_vibration_diagram,
+            "Transmissibility": cls.get_vibration_diagram,
+            "RotatingImbalanceResponse": cls.get_vibration_diagram,
+            "CriticalSpeed": cls.get_vibration_diagram,
         }
 
         factory = diagrams.get(calculation_name)
