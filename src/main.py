@@ -18,11 +18,14 @@ from src.data.database import init_db
 # Each module registers its calculations with the CalculationRegistry on import
 from src.domains import (
     controls,
+    cross_sections,
+    fatigue,
     fluids,
     materials,
     mechanical,
     statics,
     thermo,
+    trusses,
     vibrations,
 )
 
@@ -100,6 +103,9 @@ def main() -> NoReturn:
     print(f"  - Thermodynamics: {thermo.__name__}")
     print(f"  - Vibrations: {vibrations.__name__}")
     print(f"  - Controls: {controls.__name__}")
+    print(f"  - Fatigue: {fatigue.__name__}")
+    print(f"  - Cross Sections: {cross_sections.__name__}")
+    print(f"  - Trusses: {trusses.__name__}")
 
     # Start the NiceGUI application
     print(f"\nStarting Engineering Calculations Database...")

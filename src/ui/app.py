@@ -27,6 +27,9 @@ CALCULATION_CATEGORIES = {
     "mechanical": {"name": "Mechanical", "icon": "settings"},
     "controls": {"name": "Controls", "icon": "tune"},
     "vibrations": {"name": "Vibrations", "icon": "vibration"},
+    "fatigue": {"name": "Fatigue", "icon": "autorenew"},
+    "cross_sections": {"name": "Cross Sections", "icon": "view_in_ar"},
+    "trusses": {"name": "Trusses", "icon": "account_tree"},
 }
 
 
