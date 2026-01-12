@@ -336,7 +336,7 @@ def create_app(
     # Register startup handler
     app.on_startup(startup)
 
-    # Add custom CSS for responsive design
+    # Add custom CSS for responsive design (shared=True for use with @ui.page)
     ui.add_head_html("""
         <style>
             /* Responsive adjustments */
@@ -382,7 +382,7 @@ def create_app(
                 background: #888;
             }
         </style>
-    """)
+    """, shared=True)
 
     # Run the application
     ui.run(
