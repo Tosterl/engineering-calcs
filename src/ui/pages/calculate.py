@@ -8,6 +8,7 @@ input forms, calculation execution, and result display.
 from __future__ import annotations
 
 import asyncio
+import base64
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Type
@@ -110,51 +111,55 @@ def create_input_form(
                 # Description
                 ui.label(diagram.description).classes("text-gray-600 mb-4")
 
-                # SVG Diagram with proper container
+                # SVG Diagram as base64 image (more reliable rendering)
                 with ui.card().classes("w-full bg-gray-50 mb-4 p-4"):
                     ui.label("Diagram").classes("font-semibold text-primary mb-2")
-                    # Wrap SVG in a div with explicit sizing
-                    ui.html(f'<div style="width: 100%; max-width: 450px; margin: 0 auto;">{diagram.svg_diagram}</div>')
+                    # Convert SVG to base64 data URI for reliable display
+                    svg_clean = diagram.svg_diagram.strip()
+                    svg_b64 = base64.b64encode(svg_clean.encode('utf-8')).decode('utf-8')
+                    ui.image(f'data:image/svg+xml;base64,{svg_b64}').classes("w-full max-w-md mx-auto")
 
                 # Variable descriptions
-                with ui.card().classes("w-full mb-4"):
+                with ui.card().classes("w-full mb-4 p-4"):
                     ui.label("Variables").classes("font-semibold text-primary mb-2")
-                    with ui.column().classes("gap-1"):
+                    with ui.column().classes("gap-2"):
                         for var, desc in diagram.variables.items():
-                            with ui.row().classes("gap-2"):
-                                ui.label(var).classes("font-mono font-bold text-blue-600 w-12")
-                                ui.label(f"= {desc}").classes("text-gray-600")
+                            with ui.row().classes("gap-2 items-center"):
+                                ui.label(var).classes("font-mono font-bold text-blue-600 min-w-[40px]")
+                                ui.label(f"= {desc}").classes("text-gray-700")
 
                 # Worked Examples
                 if diagram.examples:
-                    ui.label("Worked Examples").classes("font-semibold text-primary mt-4 mb-2")
-                    for i, example in enumerate(diagram.examples, 1):
-                        with ui.card().classes("w-full mb-2 bg-blue-50"):
-                            ui.label(f"Example {i}: {example.description}").classes(
-                                "font-medium text-blue-800"
-                            )
-
-                            with ui.row().classes("gap-8 mt-2"):
-                                # Inputs
-                                with ui.column().classes("gap-1"):
-                                    ui.label("Inputs:").classes("text-sm font-semibold text-gray-600")
-                                    for name, value in example.inputs.items():
-                                        ui.label(f"  {name} = {value}").classes(
-                                            "text-sm font-mono text-gray-700"
-                                        )
-
-                                # Outputs
-                                with ui.column().classes("gap-1"):
-                                    ui.label("Results:").classes("text-sm font-semibold text-gray-600")
-                                    for name, value in example.expected_outputs.items():
-                                        ui.label(f"  {name} = {value}").classes(
-                                            "text-sm font-mono text-green-700 font-bold"
-                                        )
-
-                            if example.notes:
-                                ui.label(f"Note: {example.notes}").classes(
-                                    "text-xs text-gray-500 italic mt-1"
+                    with ui.card().classes("w-full p-4"):
+                        ui.label("Worked Examples").classes("font-semibold text-primary mb-3")
+                        for i, example in enumerate(diagram.examples, 1):
+                            with ui.card().classes("w-full mb-3 bg-blue-50 p-3"):
+                                ui.label(f"Example {i}: {example.description}").classes(
+                                    "font-medium text-blue-800 mb-2"
                                 )
+
+                                with ui.row().classes("gap-8 flex-wrap"):
+                                    # Inputs
+                                    with ui.column().classes("gap-1"):
+                                        ui.label("Given:").classes("text-sm font-semibold text-gray-700")
+                                        for name, value in example.inputs.items():
+                                            ui.label(f"• {name} = {value}").classes(
+                                                "text-sm font-mono text-gray-700 ml-2"
+                                            )
+
+                                    # Outputs
+                                    with ui.column().classes("gap-1"):
+                                        ui.label("Find:").classes("text-sm font-semibold text-gray-700")
+                                        for name, value in example.expected_outputs.items():
+                                            ui.label(f"• {name} = {value}").classes(
+                                                "text-sm font-mono text-green-700 font-bold ml-2"
+                                            )
+
+                                if example.notes:
+                                    ui.separator().classes("my-2")
+                                    ui.label(f"Note: {example.notes}").classes(
+                                        "text-sm text-gray-600 italic"
+                                    )
 
         # References (if available)
         if hasattr(calculation_class, 'references') and calculation_class.references:
