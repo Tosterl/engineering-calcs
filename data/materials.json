@@ -1,0 +1,233 @@
+{
+  "materials": [
+    {
+      "name": "ASTM A36 Steel",
+      "category": "Steel",
+      "properties": {
+        "density": {"value": 7850, "unit": "kg/m^3"},
+        "yield_strength": {"value": 250, "unit": "MPa"},
+        "tensile_strength": {"value": 400, "unit": "MPa"},
+        "elastic_modulus": {"value": 200, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.26, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 50, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 11.7e-6, "unit": "1/K"}
+      },
+      "source": "AISC Steel Manual"
+    },
+    {
+      "name": "ASTM A992 Steel",
+      "category": "Steel",
+      "properties": {
+        "density": {"value": 7850, "unit": "kg/m^3"},
+        "yield_strength": {"value": 345, "unit": "MPa"},
+        "tensile_strength": {"value": 450, "unit": "MPa"},
+        "elastic_modulus": {"value": 200, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.26, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 50, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 11.7e-6, "unit": "1/K"}
+      },
+      "source": "AISC Steel Manual"
+    },
+    {
+      "name": "Stainless Steel 304",
+      "category": "Steel",
+      "properties": {
+        "density": {"value": 8000, "unit": "kg/m^3"},
+        "yield_strength": {"value": 215, "unit": "MPa"},
+        "tensile_strength": {"value": 505, "unit": "MPa"},
+        "elastic_modulus": {"value": 193, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.29, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 16.2, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 17.3e-6, "unit": "1/K"}
+      },
+      "source": "ASM Handbook"
+    },
+    {
+      "name": "Stainless Steel 316",
+      "category": "Steel",
+      "properties": {
+        "density": {"value": 8000, "unit": "kg/m^3"},
+        "yield_strength": {"value": 290, "unit": "MPa"},
+        "tensile_strength": {"value": 580, "unit": "MPa"},
+        "elastic_modulus": {"value": 193, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.29, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 16.3, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 16.0e-6, "unit": "1/K"}
+      },
+      "source": "ASM Handbook"
+    },
+    {
+      "name": "Aluminum 6061-T6",
+      "category": "Aluminum",
+      "properties": {
+        "density": {"value": 2700, "unit": "kg/m^3"},
+        "yield_strength": {"value": 276, "unit": "MPa"},
+        "tensile_strength": {"value": 310, "unit": "MPa"},
+        "elastic_modulus": {"value": 68.9, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.33, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 167, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 23.6e-6, "unit": "1/K"}
+      },
+      "source": "Aluminum Association"
+    },
+    {
+      "name": "Aluminum 7075-T6",
+      "category": "Aluminum",
+      "properties": {
+        "density": {"value": 2810, "unit": "kg/m^3"},
+        "yield_strength": {"value": 503, "unit": "MPa"},
+        "tensile_strength": {"value": 572, "unit": "MPa"},
+        "elastic_modulus": {"value": 71.7, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.33, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 130, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 23.4e-6, "unit": "1/K"}
+      },
+      "source": "Aluminum Association"
+    },
+    {
+      "name": "Aluminum 2024-T3",
+      "category": "Aluminum",
+      "properties": {
+        "density": {"value": 2780, "unit": "kg/m^3"},
+        "yield_strength": {"value": 345, "unit": "MPa"},
+        "tensile_strength": {"value": 483, "unit": "MPa"},
+        "elastic_modulus": {"value": 73.1, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.33, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 121, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 23.2e-6, "unit": "1/K"}
+      },
+      "source": "Aluminum Association"
+    },
+    {
+      "name": "Copper (Annealed)",
+      "category": "Other Metals",
+      "properties": {
+        "density": {"value": 8960, "unit": "kg/m^3"},
+        "yield_strength": {"value": 70, "unit": "MPa"},
+        "tensile_strength": {"value": 220, "unit": "MPa"},
+        "elastic_modulus": {"value": 110, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.34, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 401, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 16.5e-6, "unit": "1/K"}
+      },
+      "source": "ASM Handbook"
+    },
+    {
+      "name": "Brass (C36000)",
+      "category": "Other Metals",
+      "properties": {
+        "density": {"value": 8500, "unit": "kg/m^3"},
+        "yield_strength": {"value": 310, "unit": "MPa"},
+        "tensile_strength": {"value": 400, "unit": "MPa"},
+        "elastic_modulus": {"value": 97, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.34, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 115, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 20.5e-6, "unit": "1/K"}
+      },
+      "source": "Copper Development Association"
+    },
+    {
+      "name": "Titanium Ti-6Al-4V",
+      "category": "Other Metals",
+      "properties": {
+        "density": {"value": 4430, "unit": "kg/m^3"},
+        "yield_strength": {"value": 880, "unit": "MPa"},
+        "tensile_strength": {"value": 950, "unit": "MPa"},
+        "elastic_modulus": {"value": 113.8, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.342, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 6.7, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 8.6e-6, "unit": "1/K"}
+      },
+      "source": "ASM Handbook"
+    },
+    {
+      "name": "Cast Iron (Gray)",
+      "category": "Other Metals",
+      "properties": {
+        "density": {"value": 7200, "unit": "kg/m^3"},
+        "yield_strength": {"value": null, "unit": "MPa", "note": "Gray cast iron does not exhibit a distinct yield point"},
+        "tensile_strength": {"value": 200, "unit": "MPa"},
+        "elastic_modulus": {"value": 100, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.26, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 46, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 10.5e-6, "unit": "1/K"}
+      },
+      "source": "ASM Handbook"
+    },
+    {
+      "name": "Concrete (Normal Weight)",
+      "category": "Non-metals",
+      "properties": {
+        "density": {"value": 2400, "unit": "kg/m^3"},
+        "yield_strength": {"value": null, "unit": "MPa", "note": "Concrete does not have a yield strength; use compressive strength"},
+        "tensile_strength": {"value": 3, "unit": "MPa", "note": "Approximate tensile strength for normal strength concrete"},
+        "compressive_strength": {"value": 30, "unit": "MPa", "note": "Typical value for normal strength concrete"},
+        "elastic_modulus": {"value": 25, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.2, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 1.7, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 10.0e-6, "unit": "1/K"}
+      },
+      "source": "ACI 318"
+    },
+    {
+      "name": "Wood (Douglas Fir)",
+      "category": "Non-metals",
+      "properties": {
+        "density": {"value": 530, "unit": "kg/m^3"},
+        "yield_strength": {"value": null, "unit": "MPa", "note": "Wood properties vary by grain direction; use allowable stresses"},
+        "tensile_strength": {"value": 50, "unit": "MPa", "note": "Parallel to grain"},
+        "elastic_modulus": {"value": 12.4, "unit": "GPa", "note": "Parallel to grain"},
+        "poisson_ratio": {"value": 0.29, "unit": "dimensionless", "note": "Longitudinal-tangential direction"},
+        "thermal_conductivity": {"value": 0.12, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 3.0e-6, "unit": "1/K", "note": "Parallel to grain"}
+      },
+      "source": "Wood Handbook - USDA"
+    },
+    {
+      "name": "HDPE Plastic",
+      "category": "Non-metals",
+      "properties": {
+        "density": {"value": 960, "unit": "kg/m^3"},
+        "yield_strength": {"value": 26, "unit": "MPa"},
+        "tensile_strength": {"value": 32, "unit": "MPa"},
+        "elastic_modulus": {"value": 1.1, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.46, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 0.48, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 120e-6, "unit": "1/K"}
+      },
+      "source": "Modern Plastics Handbook"
+    },
+    {
+      "name": "Nylon 6/6",
+      "category": "Non-metals",
+      "properties": {
+        "density": {"value": 1140, "unit": "kg/m^3"},
+        "yield_strength": {"value": 75, "unit": "MPa"},
+        "tensile_strength": {"value": 85, "unit": "MPa"},
+        "elastic_modulus": {"value": 3.0, "unit": "GPa"},
+        "poisson_ratio": {"value": 0.39, "unit": "dimensionless"},
+        "thermal_conductivity": {"value": 0.25, "unit": "W/(m*K)"},
+        "thermal_expansion": {"value": 80e-6, "unit": "1/K"}
+      },
+      "source": "Modern Plastics Handbook"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "description": "Common engineering materials database with mechanical and thermal properties",
+    "units": {
+      "density": "kg/m^3",
+      "yield_strength": "MPa",
+      "tensile_strength": "MPa",
+      "elastic_modulus": "GPa",
+      "poisson_ratio": "dimensionless",
+      "thermal_conductivity": "W/(m*K)",
+      "thermal_expansion": "1/K"
+    },
+    "notes": [
+      "Property values are typical/nominal values and may vary based on manufacturing process and heat treatment",
+      "Always verify material properties with manufacturer specifications for critical applications",
+      "Temperature-dependent properties are given at room temperature (20-25 deg C) unless otherwise noted"
+    ]
+  }
+}

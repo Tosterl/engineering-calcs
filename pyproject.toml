@@ -1,0 +1,30 @@
+[project]
+name = "engineering-calcs"
+version = "0.1.0"
+description = "Engineering calculations database with unit conversion, visualization, and report generation"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "nicegui",
+    "sqlalchemy",
+    "aiosqlite",
+    "pint",
+    "numpy",
+    "scipy",
+    "plotly",
+    "reportlab",
+    "python-docx",
+    "pydantic",
+    "pydantic-settings",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
